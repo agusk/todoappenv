@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  todoapp:
+    container_name: todoapp
+    restart: always
+    build: ./
+    links:
+      - mongo
+    ports:
+      - 3000:3000
+    environment:
+      - NODE_ENV=development
+      - DEBUG=todoapp:*
+      - PORT=3000
+      - MONGO_URL=mongodb://mongo:27017/todoapp
+    networks:
+      - myudemynetwork
+  
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    networks:
+      - myudemynetwork
+
+networks:
+  myudemynetwork:
+    name: myudemynetwork
+    driver: bridge
